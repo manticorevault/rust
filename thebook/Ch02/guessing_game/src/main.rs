@@ -1,7 +1,8 @@
 // Import the IO input/output library from the
 // standard library
 use std::io;
-
+// Import the comparing library
+use std::cmp::Ordering;
 // Import the rand library
 use rand::Rng;
 
@@ -12,11 +13,10 @@ fn main() {
 
     // Generate the secret number
     let secret_number = rand::thread_rng().gen_range(1..101);
-    println!("The secret number is: {}", secret_number);
 
     println!("Input your guess: ");
 
-    // Store user input in a mutable variable as a string
+    // Store user input in a mutable variable as a string 
     let mut guess = String::new();
 
     // Use the stdin function to receive user's input
@@ -24,7 +24,19 @@ fn main() {
         .read_line(&mut guess)
         .expect("Failed to read line");
 
-    // Output the user's guess using placeholders
-    println!("You guessed: {}", guess)
+    // Convert the user input from string to an unsigned integer
+    let guess: u32 = guess
+                        .trim()
+                        .parse()
+                        .expect("Please, type a number!");
 
+    // Output the user's guess using placeholders
+    println!("You guessed: {}", guess);
+
+    // Match the guess with the secret_number
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You won!"),
+    }
 }
