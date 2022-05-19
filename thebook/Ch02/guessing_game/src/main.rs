@@ -14,29 +14,34 @@ fn main() {
     // Generate the secret number
     let secret_number = rand::thread_rng().gen_range(1..101);
 
-    println!("Input your guess: ");
+    // Create a loop to run the guesses' input
+    loop {
+        println!("Input your guess: ");
+            // Store user input in a mutable variable as a string 
+        let mut guess = String::new();
 
-    // Store user input in a mutable variable as a string 
-    let mut guess = String::new();
+        // Use the stdin function to receive user's input
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
 
-    // Use the stdin function to receive user's input
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+        // Convert the user input from string to an unsigned integer
+        let guess: u32 = guess
+                            .trim()
+                            .parse()
+                            .expect("Please, type a number!");
 
-    // Convert the user input from string to an unsigned integer
-    let guess: u32 = guess
-                        .trim()
-                        .parse()
-                        .expect("Please, type a number!");
+        // Output the user's guess using placeholders
+        println!("You guessed: {}", guess);
 
-    // Output the user's guess using placeholders
-    println!("You guessed: {}", guess);
-
-    // Match the guess with the secret_number
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You won!"),
+        // Match the guess with the secret_number
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("Congratulations, you won!");
+                break;
+            }
+        }
     }
 }
