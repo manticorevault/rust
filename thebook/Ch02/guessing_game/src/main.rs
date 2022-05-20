@@ -26,10 +26,12 @@ fn main() {
             .expect("Failed to read line");
 
         // Convert the user input from string to an unsigned integer
-        let guess: u32 = guess
+        let guess: u32 = match guess
                             .trim()
-                            .parse()
-                            .expect("Please, type a number!");
+                            .parse() {
+                                    Ok(num) => num,
+                                    Err(_) => continue,
+                                };
 
         // Output the user's guess using placeholders
         println!("You guessed: {}", guess);
